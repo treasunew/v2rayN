@@ -21,10 +21,6 @@ public class ProcessService : IDisposable
             {
                 return null;
             }
-            catch (ObjectDisposedException)
-            {
-                return null;
-            }
         }
     }
 

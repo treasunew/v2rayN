@@ -508,7 +508,7 @@ public sealed class RotatingProxyManager
         var item = config.RotatingProxyItem;
         var healthUrl = config.SpeedTestItem?.SpeedPingTestUrl;
         if (!Uri.TryCreate(healthUrl, UriKind.Absolute, out var healthUri)
-            || healthUri.Scheme is not (Uri.UriSchemeHttp or Uri.UriSchemeHttps))
+            || (healthUri.Scheme != Uri.UriSchemeHttp && healthUri.Scheme != Uri.UriSchemeHttps))
         {
             healthUrl = DefaultHealthCheckUrl;
         }
@@ -1139,7 +1139,7 @@ public sealed class RotatingProxyManager
                 State = ERotatingProxyServiceState.Stopped,
             },
             [],
-            [],
+            new Dictionary<string, RotatingProxyCredential>(),
             "The rotating proxy service has not been initialized.");
     }
 

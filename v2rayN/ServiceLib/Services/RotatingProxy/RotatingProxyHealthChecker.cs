@@ -48,7 +48,7 @@ public sealed class RotatingProxyHealthChecker
             throw new ArgumentOutOfRangeException(nameof(mixedPort));
         }
         if (!Uri.TryCreate(healthCheckUrl, UriKind.Absolute, out var healthCheckUri)
-            || healthCheckUri.Scheme is not (Uri.UriSchemeHttp or Uri.UriSchemeHttps))
+            || (healthCheckUri.Scheme != Uri.UriSchemeHttp && healthCheckUri.Scheme != Uri.UriSchemeHttps))
         {
             throw new ArgumentException("The health check URL must be an absolute HTTP or HTTPS URL.",
                 nameof(healthCheckUrl));
