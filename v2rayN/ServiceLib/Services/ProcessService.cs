@@ -9,6 +9,24 @@ public class ProcessService : IDisposable
     public int Id => _process.Id;
     public IntPtr Handle => _process.Handle;
     public bool HasExited => _process.HasExited;
+    public int? ExitCode
+    {
+        get
+        {
+            try
+            {
+                return _process.HasExited ? _process.ExitCode : null;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            catch (ObjectDisposedException)
+            {
+                return null;
+            }
+        }
+    }
 
     public ProcessService(
         string fileName,
@@ -68,6 +86,11 @@ public class ProcessService : IDisposable
             await Task.Delay(10);
             await _process.StandardInput.WriteLineAsync(pwd);
         }
+    }
+
+    public async Task WaitForExitAsync(CancellationToken cancellationToken = default)
+    {
+        await _process.WaitForExitAsync(cancellationToken);
     }
 
     public async Task StopAsync()

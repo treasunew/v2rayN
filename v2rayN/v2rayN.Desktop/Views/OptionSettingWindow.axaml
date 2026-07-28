@@ -1119,6 +1119,154 @@
                 </ScrollViewer>
             </TabItem>
 
+            <TabItem Header="{x:Static resx:ResUI.TbSettingsRotatingProxy}">
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <Grid
+                        Margin="{StaticResource Margin4}"
+                        ColumnDefinitions="Auto,Auto,*"
+                        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyEnabled}" />
+                        <ToggleSwitch
+                            x:Name="togRotatingProxyEnabled"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="{StaticResource Margin4}"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyTip}"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyMixedPort}" />
+                        <TextBox
+                            x:Name="txtRotatingProxyMixedPort"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="{StaticResource Margin4}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyApiPort}" />
+                        <TextBox
+                            x:Name="txtRotatingProxyApiPort"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="{StaticResource Margin4}" />
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyHealthInterval}" />
+                        <TextBox
+                            x:Name="txtRotatingProxyHealthInterval"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="{StaticResource Margin4}" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyHealthTimeout}" />
+                        <TextBox
+                            x:Name="txtRotatingProxyHealthTimeout"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="{StaticResource Margin4}" />
+
+                        <TextBlock
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyHealthConcurrency}" />
+                        <TextBox
+                            x:Name="txtRotatingProxyHealthConcurrency"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="{StaticResource Margin4}" />
+
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyHealthyMaxAge}" />
+                        <TextBox
+                            x:Name="txtRotatingProxyHealthyMaxAge"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="{StaticResource Margin4}" />
+
+                        <TextBlock
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxyStatus}" />
+                        <TextBlock
+                            x:Name="txtRotatingProxyStatus"
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Center"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Margin="{StaticResource Margin4}"
+                            VerticalAlignment="Top"
+                            Text="{x:Static resx:ResUI.TbSettingsRotatingProxySubscriptions}" />
+                        <ListBox
+                            x:Name="lstRotatingProxySubscriptions"
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Grid.RowSpan="2"
+                            MinHeight="180"
+                            Margin="{StaticResource Margin4}"
+                            HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        Margin="{StaticResource Margin4}"
+                                        Content="{Binding Remarks}"
+                                        IsChecked="{Binding IsSelected}"
+                                        IsEnabled="{Binding Enabled}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
             <TabItem Header="{x:Static resx:ResUI.TbSettingsCoreType}">
                 <Grid
                     Margin="{StaticResource Margin4}"

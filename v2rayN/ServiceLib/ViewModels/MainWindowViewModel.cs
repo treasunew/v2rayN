@@ -327,6 +327,19 @@ public class MainWindowViewModel : MyReactiveObject
         await ConfigHandler.InitBuiltinFullConfigTemplate(_config);
         await ProfileExManager.Instance.Init();
         await CoreManager.Instance.Init(_config, UpdateHandler);
+        // Start rotating proxy in the background so sing-box startup/health checks do not block UI init.
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await RotatingProxyManager.Instance.InitializeAsync(_config, UpdateHandler);
+            }
+            catch (Exception ex)
+            {
+                Logging.SaveLog(nameof(MainWindowViewModel), ex);
+                await UpdateHandler(false, "The rotating proxy service failed to start.");
+            }
+        });
         await CertPemManager.Instance.Init(_config);
         TaskManager.Instance.RegUpdateTask(_config, UpdateTaskHandler);
 
@@ -564,6 +577,7 @@ public class MainWindowViewModel : MyReactiveObject
             {
                 await StatusBarViewModel.InboundDisplayStatus();
             });
+            await RotatingProxyManager.Instance.ReconcileAsync();
             await Reload();
         }
     }

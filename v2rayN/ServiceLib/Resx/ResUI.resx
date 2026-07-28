@@ -1848,4 +1848,49 @@ The "Get Certificate" action may fail if a self-signed certificate is used or if
   <data name="TbIpv4Address" xml:space="preserve">
     <value>Ipv4 Address</value>
   </data>
+  <data name="TbSettingsRotatingProxy" xml:space="preserve">
+    <value>Rotating Proxy</value>
+  </data>
+  <data name="TbSettingsRotatingProxyEnabled" xml:space="preserve">
+    <value>Enable rotating proxy</value>
+  </data>
+  <data name="TbSettingsRotatingProxyMixedPort" xml:space="preserve">
+    <value>Mixed port (HTTP/SOCKS)</value>
+  </data>
+  <data name="TbSettingsRotatingProxyApiPort" xml:space="preserve">
+    <value>API port</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthInterval" xml:space="preserve">
+    <value>Health check interval (seconds)</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthTimeout" xml:space="preserve">
+    <value>Health check timeout (seconds)</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthConcurrency" xml:space="preserve">
+    <value>Health check concurrency</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthyMaxAge" xml:space="preserve">
+    <value>Healthy max age (seconds)</value>
+  </data>
+  <data name="TbSettingsRotatingProxySubscriptions" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="TbSettingsRotatingProxyStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TbSettingsRotatingProxyTip" xml:space="preserve">
+    <value>Independent from system proxy. API: GET /api/proxy/random on 127.0.0.1</value>
+  </data>
+  <data name="FillRotatingProxyPort" xml:space="preserve">
+    <value>Please enter valid rotating proxy ports.</value>
+  </data>
+  <data name="FillRotatingProxyPortConflict" xml:space="preserve">
+    <value>Rotating proxy ports must be different from each other and the local listening port.</value>
+  </data>
+  <data name="FillRotatingProxyHealthParameter" xml:space="preserve">
+    <value>Please enter valid rotating proxy health check parameters.</value>
+  </data>
+  <data name="FillRotatingProxySubscription" xml:space="preserve">
+    <value>Please select at least one enabled subscription for rotating proxy.</value>
+  </data>
 </root>

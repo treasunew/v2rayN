@@ -86,6 +86,7 @@ internal static class CoreConfigTestFactory
                 Strategy4Proxy = Global.AsIs,
                 Strategy4ProxyDial = Global.AsIs,
             },
+            RotatingProxyItem = new RotatingProxyItem(),
             IndexId = string.Empty,
             SubIndexId = string.Empty,
         };
@@ -148,6 +149,33 @@ internal static class CoreConfigTestFactory
             StreamSecurity = string.Empty,
             Subid = string.Empty,
         };
+    }
+
+    public static ProfileItem CreateWireGuardNode(ECoreType coreType, string indexId = "node-wireguard-1",
+        string remarks = "demo-wireguard")
+    {
+        var node = new ProfileItem
+        {
+            IndexId = indexId,
+            ConfigType = EConfigType.WireGuard,
+            CoreType = coreType,
+            Remarks = remarks,
+            Address = "wg.example.com",
+            Port = 51820,
+            Password = "private-key",
+            Network = nameof(ETransport.raw),
+            StreamSecurity = string.Empty,
+            Subid = string.Empty,
+        };
+        node.SetProtocolExtra(node.GetProtocolExtra() with
+        {
+            WgPublicKey = "public-key",
+            WgPresharedKey = "pre-shared-key",
+            WgInterfaceAddress = "10.0.0.2/32,fd00::2/128",
+            WgReserved = "1,2,3",
+            WgMtu = 1420,
+        });
+        return node;
     }
 
     public static ProfileItem CreatePolicyGroupNode(ECoreType coreType, string indexId, string remarks,

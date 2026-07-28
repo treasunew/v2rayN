@@ -138,6 +138,16 @@ public partial class OptionSettingWindow
             this.Bind(ViewModel, vm => vm.CoreType7, v => v.cmbCoreType7.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.CoreType9, v => v.cmbCoreType9.Text).DisposeWith(disposables);
 
+            this.Bind(ViewModel, vm => vm.RotatingProxyEnabled, v => v.togRotatingProxyEnabled.IsChecked).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RotatingProxyMixedPort, v => v.txtRotatingProxyMixedPort.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RotatingProxyApiPort, v => v.txtRotatingProxyApiPort.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RotatingProxyHealthCheckIntervalSeconds, v => v.txtRotatingProxyHealthInterval.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RotatingProxyHealthCheckTimeoutSeconds, v => v.txtRotatingProxyHealthTimeout.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RotatingProxyHealthCheckConcurrency, v => v.txtRotatingProxyHealthConcurrency.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RotatingProxyHealthyMaxAgeSeconds, v => v.txtRotatingProxyHealthyMaxAge.Text).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.RotatingProxyStatusSummary, v => v.txtRotatingProxyStatus.Text).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.RotatingProxySubscriptions, v => v.lstRotatingProxySubscriptions.ItemsSource).DisposeWith(disposables);
+
             this.BindCommand(ViewModel, vm => vm.SaveCmd, v => v.btnSave).DisposeWith(disposables);
         });
         WindowsUtils.SetDarkBorder(this, AppManager.Instance.Config.UiItem.CurrentTheme);

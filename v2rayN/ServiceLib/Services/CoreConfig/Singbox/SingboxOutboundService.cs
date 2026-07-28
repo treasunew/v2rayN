@@ -31,6 +31,17 @@ public partial class CoreConfigSingboxService
         return proxyOutboundList;
     }
 
+    internal static List<BaseServer4Sbox> BuildLeafProxyOutbounds(Config config, ProfileItem node, string tag)
+    {
+        var coreContext = new CoreConfigContext
+        {
+            AppConfig = config,
+            Node = node,
+            RunCoreType = ECoreType.sing_box,
+        };
+        return new CoreConfigSingboxService(coreContext).BuildAllProxyOutbounds(tag, false);
+    }
+
     private BaseServer4Sbox BuildProxyOutbound(string baseTagName = Global.ProxyTag)
     {
         var outbound = BuildProxyServer();

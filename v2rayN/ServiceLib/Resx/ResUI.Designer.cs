@@ -5246,5 +5246,95 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("UpgradeAppNotExistTip", resourceCulture);
             }
         }
+
+        public static string TbSettingsRotatingProxy {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxy", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyEnabled {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyEnabled", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyMixedPort {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyMixedPort", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyApiPort {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyApiPort", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyHealthInterval {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyHealthInterval", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyHealthTimeout {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyHealthTimeout", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyHealthConcurrency {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyHealthConcurrency", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyHealthyMaxAge {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyHealthyMaxAge", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxySubscriptions {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxySubscriptions", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyStatus {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyStatus", resourceCulture);
+            }
+        }
+
+        public static string TbSettingsRotatingProxyTip {
+            get {
+                return ResourceManager.GetString("TbSettingsRotatingProxyTip", resourceCulture);
+            }
+        }
+
+        public static string FillRotatingProxyPort {
+            get {
+                return ResourceManager.GetString("FillRotatingProxyPort", resourceCulture);
+            }
+        }
+
+        public static string FillRotatingProxyPortConflict {
+            get {
+                return ResourceManager.GetString("FillRotatingProxyPortConflict", resourceCulture);
+            }
+        }
+
+        public static string FillRotatingProxyHealthParameter {
+            get {
+                return ResourceManager.GetString("FillRotatingProxyHealthParameter", resourceCulture);
+            }
+        }
+
+        public static string FillRotatingProxySubscription {
+            get {
+                return ResourceManager.GetString("FillRotatingProxySubscription", resourceCulture);
+            }
+        }
     }
 }

@@ -300,3 +300,16 @@ public class HappyEyeballs4RayItem
     public int? Interleave { get; set; }
     public int? MaxConcurrentTry { get; set; }
 }
+
+[Serializable]
+public class RotatingProxyItem
+{
+    public bool Enabled { get; set; } = false;
+    public int MixedPort { get; set; } = 20808;
+    public int ApiPort { get; set; } = 20809;
+    public List<string> SubscriptionIds { get; set; } = [];
+    public int HealthCheckIntervalSeconds { get; set; } = 60;
+    public int HealthCheckTimeoutSeconds { get; set; } = 10;
+    public int HealthCheckConcurrency { get; set; } = 8;
+    public int HealthyMaxAgeSeconds { get; set; } = 180;
+}

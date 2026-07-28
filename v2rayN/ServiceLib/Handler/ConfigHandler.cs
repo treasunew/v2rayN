@@ -180,6 +180,51 @@ public static class ConfigHandler
             Interleave = 1,
             MaxConcurrentTry = 4,
         };
+
+        config.RotatingProxyItem ??= new();
+        config.RotatingProxyItem.SubscriptionIds = (config.RotatingProxyItem.SubscriptionIds ?? [])
+            .Select(t => t.TrimEx())
+            .Where(t => t.IsNotEmpty())
+            .Distinct()
+            .ToList();
+        if (config.RotatingProxyItem.MixedPort is <= 0 or > 65535)
+        {
+            config.RotatingProxyItem.MixedPort = 20808;
+        }
+        if (config.RotatingProxyItem.ApiPort is <= 0 or > 65535)
+        {
+            config.RotatingProxyItem.ApiPort = 20809;
+        }
+        if (config.RotatingProxyItem.ApiPort == config.RotatingProxyItem.MixedPort)
+        {
+            config.RotatingProxyItem.ApiPort = config.RotatingProxyItem.MixedPort == 20809 ? 20810 : 20809;
+        }
+        if (config.RotatingProxyItem.HealthCheckIntervalSeconds < 10)
+        {
+            config.RotatingProxyItem.HealthCheckIntervalSeconds = 60;
+        }
+        if (config.RotatingProxyItem.HealthCheckTimeoutSeconds is < 1 or > 60)
+        {
+            config.RotatingProxyItem.HealthCheckTimeoutSeconds = 10;
+        }
+        if (config.RotatingProxyItem.HealthCheckTimeoutSeconds > config.RotatingProxyItem.HealthCheckIntervalSeconds)
+        {
+            config.RotatingProxyItem.HealthCheckTimeoutSeconds =
+                Math.Min(10, config.RotatingProxyItem.HealthCheckIntervalSeconds);
+        }
+        if (config.RotatingProxyItem.HealthCheckConcurrency is < 1 or > 64)
+        {
+            config.RotatingProxyItem.HealthCheckConcurrency = 8;
+        }
+        if (config.RotatingProxyItem.HealthyMaxAgeSeconds
+            < config.RotatingProxyItem.HealthCheckIntervalSeconds + config.RotatingProxyItem.HealthCheckTimeoutSeconds)
+        {
+            config.RotatingProxyItem.HealthyMaxAgeSeconds =
+                config.RotatingProxyItem.HealthCheckIntervalSeconds
+                + config.RotatingProxyItem.HealthCheckTimeoutSeconds
+                + 60;
+        }
+
         if ((config.Fragment4RayItem.Lengths ?? []).Count == 0)
         {
             config.Fragment4RayItem.Lengths = [config.Fragment4RayItem.Length ?? "50-100"];
@@ -2117,6 +2162,7 @@ public static class ConfigHandler
             config.SubIndexId = subs.LastOrDefault()?.Id;
         }
 
+        AppEvents.SubscriptionsUpdated.Publish([id]);
         return 0;
     }
 

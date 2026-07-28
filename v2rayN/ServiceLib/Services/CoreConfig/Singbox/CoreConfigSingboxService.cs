@@ -10,6 +10,34 @@ public partial class CoreConfigSingboxService(CoreConfigContext context)
 
     #region public gen function
 
+    internal static SingboxConfig BuildMinimizedClientConfig(Config config, ProfileItem node)
+    {
+        var result = EmbedUtils.GetEmbedText(Global.SingboxSampleClient);
+        var coreConfig = JsonUtils.Deserialize<SingboxConfig>(result) ?? throw new InvalidOperationException();
+        var coreContext = new CoreConfigContext
+        {
+            AppConfig = config,
+            Node = node,
+            RunCoreType = ECoreType.sing_box,
+            SimpleDnsItem = config.SimpleDNSItem ?? new(),
+        };
+        var service = new CoreConfigSingboxService(coreContext)
+        {
+            _coreConfig = coreConfig,
+        };
+        service.GenLog();
+        service.GenMinimizedDns();
+
+        coreConfig.inbounds.Clear();
+        coreConfig.outbounds.Clear();
+        coreConfig.endpoints = [];
+        coreConfig.route.rules.Clear();
+        coreConfig.route.rule_set = null;
+        coreConfig.route.final = null;
+        coreConfig.experimental = null;
+        return coreConfig;
+    }
+
     public RetResult GenerateClientConfigContent()
     {
         var ret = new RetResult();

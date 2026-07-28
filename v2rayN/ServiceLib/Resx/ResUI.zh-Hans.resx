@@ -1849,4 +1849,49 @@
   <data name="TbIpv4Address" xml:space="preserve">
     <value>Ipv4 地址</value>
   </data>
+  <data name="TbSettingsRotatingProxy" xml:space="preserve">
+    <value>轮换代理</value>
+  </data>
+  <data name="TbSettingsRotatingProxyEnabled" xml:space="preserve">
+    <value>启用轮换代理</value>
+  </data>
+  <data name="TbSettingsRotatingProxyMixedPort" xml:space="preserve">
+    <value>混合端口 (HTTP/SOCKS)</value>
+  </data>
+  <data name="TbSettingsRotatingProxyApiPort" xml:space="preserve">
+    <value>API 端口</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthInterval" xml:space="preserve">
+    <value>健康检查间隔 (秒)</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthTimeout" xml:space="preserve">
+    <value>健康检查超时 (秒)</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthConcurrency" xml:space="preserve">
+    <value>健康检查并发数</value>
+  </data>
+  <data name="TbSettingsRotatingProxyHealthyMaxAge" xml:space="preserve">
+    <value>健康状态最长有效期 (秒)</value>
+  </data>
+  <data name="TbSettingsRotatingProxySubscriptions" xml:space="preserve">
+    <value>订阅</value>
+  </data>
+  <data name="TbSettingsRotatingProxyStatus" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="TbSettingsRotatingProxyTip" xml:space="preserve">
+    <value>与系统代理独立。API: 访问 127.0.0.1 的 GET /api/proxy/random</value>
+  </data>
+  <data name="FillRotatingProxyPort" xml:space="preserve">
+    <value>请填写有效的轮换代理端口。</value>
+  </data>
+  <data name="FillRotatingProxyPortConflict" xml:space="preserve">
+    <value>轮换代理端口需互不相同，且不能与本地监听端口相同。</value>
+  </data>
+  <data name="FillRotatingProxyHealthParameter" xml:space="preserve">
+    <value>请填写有效的轮换代理健康检查参数。</value>
+  </data>
+  <data name="FillRotatingProxySubscription" xml:space="preserve">
+    <value>启用轮换代理时请至少选择一个已启用的订阅。</value>
+  </data>
 </root>

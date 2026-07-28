@@ -113,6 +113,20 @@ public class OptionSettingViewModel : MyReactiveObject, ICloseable
 
     #endregion CoreType
 
+    #region Rotating proxy
+
+    [Reactive] public bool RotatingProxyEnabled { get; set; }
+    [Reactive] public int RotatingProxyMixedPort { get; set; }
+    [Reactive] public int RotatingProxyApiPort { get; set; }
+    [Reactive] public int RotatingProxyHealthCheckIntervalSeconds { get; set; }
+    [Reactive] public int RotatingProxyHealthCheckTimeoutSeconds { get; set; }
+    [Reactive] public int RotatingProxyHealthCheckConcurrency { get; set; }
+    [Reactive] public int RotatingProxyHealthyMaxAgeSeconds { get; set; }
+    [Reactive] public string RotatingProxyStatusSummary { get; set; }
+    public ObservableCollectionExtended<RotatingProxySubscriptionOption> RotatingProxySubscriptions { get; } = [];
+
+    #endregion Rotating proxy
+
     public ReactiveCommand<Unit, Unit> SaveCmd { get; }
 
     public OptionSettingViewModel()
@@ -221,7 +235,58 @@ public class OptionSettingViewModel : MyReactiveObject, ICloseable
 
         #endregion Tun mode
 
+        #region Rotating proxy
+
+        var rotating = _config.RotatingProxyItem ??= new();
+        RotatingProxyEnabled = rotating.Enabled;
+        RotatingProxyMixedPort = rotating.MixedPort;
+        RotatingProxyApiPort = rotating.ApiPort;
+        RotatingProxyHealthCheckIntervalSeconds = rotating.HealthCheckIntervalSeconds;
+        RotatingProxyHealthCheckTimeoutSeconds = rotating.HealthCheckTimeoutSeconds;
+        RotatingProxyHealthCheckConcurrency = rotating.HealthCheckConcurrency;
+        RotatingProxyHealthyMaxAgeSeconds = rotating.HealthyMaxAgeSeconds;
+        await InitRotatingProxySubscriptions(rotating.SubscriptionIds ?? []);
+        RefreshRotatingProxyStatusSummary();
+
+        #endregion Rotating proxy
+
         await InitCoreType();
+    }
+
+    private async Task InitRotatingProxySubscriptions(IReadOnlyList<string> selectedIds)
+    {
+        RotatingProxySubscriptions.Clear();
+        var selected = new HashSet<string>(
+            (selectedIds ?? []).Where(id => id.IsNotEmpty()),
+            StringComparer.Ordinal);
+        var subscriptions = await AppManager.Instance.SubItems() ?? [];
+        foreach (var item in subscriptions.Where(t => t.Id.IsNotEmpty()))
+        {
+            RotatingProxySubscriptions.Add(new RotatingProxySubscriptionOption
+            {
+                Id = item.Id,
+                Remarks = item.Remarks.IsNullOrEmpty() ? item.Id : item.Remarks,
+                Enabled = item.Enabled,
+                IsSelected = item.Enabled && selected.Contains(item.Id),
+            });
+        }
+    }
+
+    private void RefreshRotatingProxyStatusSummary()
+    {
+        try
+        {
+            var snapshot = RotatingProxyManager.Instance.GetSnapshot();
+            var healthy = snapshot.Nodes.Count(t => t.State == ERotatingProxyNodeState.Healthy);
+            var unhealthy = snapshot.Nodes.Count(t => t.State == ERotatingProxyNodeState.Unhealthy);
+            var skipped = snapshot.Skipped.Count;
+            RotatingProxyStatusSummary =
+                $"{snapshot.Service.State}: {healthy} healthy, {unhealthy} unhealthy, {skipped} skipped";
+        }
+        catch
+        {
+            RotatingProxyStatusSummary = string.Empty;
+        }
     }
 
     private async Task InitCoreType()
@@ -288,6 +353,38 @@ public class OptionSettingViewModel : MyReactiveObject, ICloseable
            || LocalPort <= 0 || LocalPort >= Global.MaxPort)
         {
             NoticeManager.Instance.Enqueue(ResUI.FillLocalListeningPort);
+            return;
+        }
+        if (RotatingProxyMixedPort <= 0 || RotatingProxyMixedPort >= Global.MaxPort
+            || RotatingProxyApiPort <= 0 || RotatingProxyApiPort >= Global.MaxPort)
+        {
+            NoticeManager.Instance.Enqueue(ResUI.FillRotatingProxyPort);
+            return;
+        }
+        if (RotatingProxyMixedPort == RotatingProxyApiPort
+            || RotatingProxyMixedPort == LocalPort
+            || RotatingProxyApiPort == LocalPort)
+        {
+            NoticeManager.Instance.Enqueue(ResUI.FillRotatingProxyPortConflict);
+            return;
+        }
+        if (RotatingProxyHealthCheckIntervalSeconds < 10
+            || RotatingProxyHealthCheckTimeoutSeconds is < 1 or > 60
+            || RotatingProxyHealthCheckTimeoutSeconds > RotatingProxyHealthCheckIntervalSeconds
+            || RotatingProxyHealthCheckConcurrency is < 1 or > 64
+            || RotatingProxyHealthyMaxAgeSeconds < RotatingProxyHealthCheckIntervalSeconds + RotatingProxyHealthCheckTimeoutSeconds)
+        {
+            NoticeManager.Instance.Enqueue(ResUI.FillRotatingProxyHealthParameter);
+            return;
+        }
+        var selectedSubscriptionIds = RotatingProxySubscriptions
+            .Where(t => t.IsSelected && t.Enabled && t.Id.IsNotEmpty())
+            .Select(t => t.Id)
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+        if (RotatingProxyEnabled && selectedSubscriptionIds.Count == 0)
+        {
+            NoticeManager.Instance.Enqueue(ResUI.FillRotatingProxySubscription);
             return;
         }
         var fragmentLengths = Utils.String2List(FragmentLengths) ?? [];
@@ -384,6 +481,17 @@ public class OptionSettingViewModel : MyReactiveObject, ICloseable
         _config.TunModeItem.RouteExcludeAddress = Utils.String2List(TunRouteExcludeAddress);
         _config.TunModeItem.IPv4Address = TunIPv4Address;
         _config.TunModeItem.IPv6Address = TunIPv6Address;
+
+        //rotating proxy
+        _config.RotatingProxyItem ??= new();
+        _config.RotatingProxyItem.Enabled = RotatingProxyEnabled;
+        _config.RotatingProxyItem.MixedPort = RotatingProxyMixedPort;
+        _config.RotatingProxyItem.ApiPort = RotatingProxyApiPort;
+        _config.RotatingProxyItem.HealthCheckIntervalSeconds = RotatingProxyHealthCheckIntervalSeconds;
+        _config.RotatingProxyItem.HealthCheckTimeoutSeconds = RotatingProxyHealthCheckTimeoutSeconds;
+        _config.RotatingProxyItem.HealthCheckConcurrency = RotatingProxyHealthCheckConcurrency;
+        _config.RotatingProxyItem.HealthyMaxAgeSeconds = RotatingProxyHealthyMaxAgeSeconds;
+        _config.RotatingProxyItem.SubscriptionIds = selectedSubscriptionIds;
 
         //coreType
         await SaveCoreType();

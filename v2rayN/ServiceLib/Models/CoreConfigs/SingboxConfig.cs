@@ -56,6 +56,7 @@ public class Rule4Sbox
     public bool? invert { get; set; }
     public string? clash_mode { get; set; }
     public List<string>? inbound { get; set; }
+    public List<string>? auth_user { get; set; }
     public List<string>? protocol { get; set; }
     public List<string>? network { get; set; }
     public List<int>? port { get; set; }

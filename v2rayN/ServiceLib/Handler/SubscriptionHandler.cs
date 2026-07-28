@@ -14,6 +14,7 @@ public static class SubscriptionHandler
         }
 
         var successCount = 0;
+        var successfulIds = new List<string>();
         foreach (var item in subItem)
         {
             try
@@ -41,6 +42,7 @@ public static class SubscriptionHandler
                 if (await ProcessDownloadResult(config, item.Id, result, hashCode, updateFunc))
                 {
                     successCount++;
+                    successfulIds.Add(item.Id);
                 }
 
                 await updateFunc?.Invoke(false, "-------------------------------------------------------");
@@ -54,6 +56,10 @@ public static class SubscriptionHandler
             }
         }
 
+        if (successfulIds.Count > 0)
+        {
+            AppEvents.SubscriptionsUpdated.Publish(successfulIds.Distinct().ToArray());
+        }
         await updateFunc?.Invoke(successCount > 0, $"{ResUI.MsgUpdateSubscriptionEnd}");
     }
 
