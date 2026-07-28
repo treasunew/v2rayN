@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
+    xmlns:dto="clr-namespace:ServiceLib.Models.Dto;assembly=ServiceLib"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
     xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
@@ -1251,10 +1252,9 @@
                             Grid.ColumnSpan="2"
                             Grid.RowSpan="2"
                             MinHeight="180"
-                            Margin="{StaticResource Margin4}"
-                            HorizontalContentAlignment="Stretch">
+                            Margin="{StaticResource Margin4}">
                             <ListBox.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="dto:RotatingProxySubscriptionOption">
                                     <CheckBox
                                         Margin="{StaticResource Margin4}"
                                         Content="{Binding Remarks}"
